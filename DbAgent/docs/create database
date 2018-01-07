@@ -1,0 +1,9 @@
+Stworzenie bazy danych i załadowanie danych:
+Otworzyć terminal w folderze "docs"
+$ sudo -u postgres psql postgres
+postgres=# CREATE DATABASE sag_wedt;
+postgres=# CREATE USER sag_wedt_user WITH PASSWORD 'temppass';
+postgres=# GRANT ALL PRIVILEGES ON DATABASE sag_wedt to sag_wedt_user;
+postgres=# \q
+
+$ psql -U sag_wedt_user sag_wedt -f sag_wedt_database.sql
