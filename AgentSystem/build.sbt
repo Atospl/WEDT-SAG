@@ -1,4 +1,4 @@
-name := "DbAgent"
+name := "AgentSystem"
 
 version := "0.1"
 
