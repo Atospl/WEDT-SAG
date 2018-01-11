@@ -4,12 +4,18 @@ import akka.actor.{ Actor, Props, ActorSystem }
 import scala.io.StdIn
 
 class ScrapersManagerAgent extends Actor {
-  override def receive: Receive = {
-    case "createParserAgents" =>
-      println(s"Parsers created!")
+  override def preStart(): Unit = {
+    println("ScrapersManager started...")
 
-    case "runParsers" =>
-      println(s"Parsers running!")
+  }
+
+
+  override def receive: Receive = {
+    case "createScraperAgents" =>
+      println(s"scrapers created!")
+
+    case "runScrapers" =>
+      println(s"scrapers running!")
 
   }
 }
