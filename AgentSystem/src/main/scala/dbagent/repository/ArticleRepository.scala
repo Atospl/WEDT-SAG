@@ -1,9 +1,10 @@
 package dbagent.repository
 
+import dbagent.dtos.ArticleDTO
 import dbagent.models.ArticleModel
 import slick.jdbc.PostgresProfile.api._
-import scala.concurrent.ExecutionContext.Implicits.global
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
 import scala.concurrent.duration.Duration
 
@@ -11,11 +12,11 @@ object ArticleRepository {
 
   private val db = Database.forConfig("postgresConf")
 
-  var field = TableQuery[ArticleTableRepository]
+  var article = TableQuery[ArticleTableRepository]
 
   class ArticleTableRepository(tag: Tag) extends Table[ArticleModel](tag, "Article") {
 
-    def id = column[Int]("id", O.PrimaryKey)
+    def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
 
     def dataDownloaded = column[String]("data_downloaded")
 
@@ -38,17 +39,46 @@ object ArticleRepository {
   def getAll: List[ArticleModel] = {
     Await.result({
       db.run {
-        field.to[List].result
+        article.to[List].result
       }
     }, Duration.Inf)
   }
 
-/*  def save(a: String, b: String, c: String) = {
+  def save(dataDownloaded: String, tags: String, textOfArticle: String, vector: String, siteFrom: String, url: String, title: String) = {
     Await.result({
       db.run(
         sqlu"""INSERT INTO "Article"("data_downloaded","tags","text_of_article","vector","site_from","url","title")
-              VALUES (${a},${b},${c})""")
+                VALUES (${dataDownloaded},${tags},${textOfArticle}, ${vector}, ${siteFrom}, ${url}, ${title})""")
     }, Duration.Inf)
-  }*/
+  }
+
+  def save(model: ArticleDTO) = {
+    Await.result({
+      db.run(
+        sqlu"""INSERT INTO "Article"("data_downloaded","tags","text_of_article","vector","site_from","url","title")
+                VALUES (${model.dataDownloaded},${model.tags},${model.textOfArticle}, ${model.vector}, ${model.siteFrom}, ${model.url}, ${model.title})""")
+    }, Duration.Inf)
+  }
+
+  def delete(id: Int) = {
+    Await.result({
+      db.run(
+        sqlu"""DELETE FROM "Article" WHERE "id" = ${id}""")
+    }, Duration.Inf)
+  }
+
+  def getByTagName(tag: String): Option[List[ArticleModel]] = {
+    var articles = None: Option[List[ArticleModel]]
+    Await.result({
+      db.run {
+        article.filter(_.tags === tag).to[List].result
+      }.map { value =>
+        if (value.nonEmpty) {
+          articles = Some(value)
+        }
+      }
+    }, Duration.Inf)
+    articles
+  }
 
 }
