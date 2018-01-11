@@ -1,12 +1,16 @@
 package agents
 
 import dbagent.repository
-import akka.actor.{ Actor, Props, ActorSystem }
+import akka.actor.{ Actor, Props, ActorLogging, ActorSystem }
 import scala.io.StdIn
 
-class DBAgent extends Actor {
+object DBAgent {
+  def props(): Props = Props(new DBAgent)
+}
+
+class DBAgent extends Actor with ActorLogging {
   override def preStart(): Unit = {
-    println("DBAgent started...")
+    log.info("DBAgent started...")
 
 
   }
@@ -14,12 +18,12 @@ class DBAgent extends Actor {
 
   override def receive: Receive = {
     case "saveArticle" =>
-      println("Saving article...")
+      log.info("Saving article...")
 
     case "getPolitics" =>
-      println("Retrieving political articles")
+      log.info("Retrieving political articles")
 
     case "getScience" =>
-      println("Retrieving scientifical articles")
+      log.info("Retrieving scientifical articles")
   }
 }

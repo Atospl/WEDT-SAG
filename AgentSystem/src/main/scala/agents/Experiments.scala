@@ -21,8 +21,8 @@ object ArtCompSystemApp extends App {
   val system = ActorSystem("ArtCompSystem")
   println("Hello, world!")
 
-  val scrapersManager = system.actorOf(Props[ScrapersManagerAgent], "scrapersManager")
-  val dbAgent = system.actorOf(Props[DBAgent], "dbAgent")
+  val scrapersManager = system.actorOf(ScrapersManagerAgent.props(), "scrapersManager")
+  val dbAgent = system.actorOf(DBAgent.props(), "dbAgent")
   println(s"DBAgent: $dbAgent, ScrapersManager: $scrapersManager");
   scrapersManager ! "createScraperAgents"
 

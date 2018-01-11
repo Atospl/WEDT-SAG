@@ -1,21 +1,33 @@
 package agents
 
-import akka.actor.{ Actor, Props, ActorSystem }
+import akka.actor.{ Actor, Props, ActorLogging, ActorSystem, ActorRef }
 import scala.io.StdIn
 
-class ScrapersManagerAgent extends Actor {
+object ScrapersManagerAgent {
+  def props(): Props = Props(new ScrapersManagerAgent)
+}
+
+
+class ScrapersManagerAgent extends Actor with ActorLogging {
+  var scraperActors = Map.empty[String, ActorRef]
+
+
+
   override def preStart(): Unit = {
-    println("ScrapersManager started...")
+    log.info("ScrapersManager started...")
 
   }
 
 
   override def receive: Receive = {
     case "createScraperAgents" =>
-      println(s"scrapers created!")
+      val scraper = context.actorOf(ScraperAgent.props("http://bbc.com", "ScraperBBC"), s"scraper-bbc")
+      scraperActors += "BBC" -> scraper
+      log.info(s"Scraper created " + scraper)
+      log.info(s"scrapers created!")
 
     case "runScrapers" =>
-      println(s"scrapers running!")
+      log.info(s"scrapers running!")
 
   }
 }
