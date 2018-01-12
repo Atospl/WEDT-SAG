@@ -25,7 +25,8 @@ object BbcParser {
     feed.foreach(elem => {
       val document = Jsoup.connect(elem.url).get()
       val text = document.select(".story-body__inner > p").text()
-      articles += ArticleDTO(elem.dateDownloaded, elem.tags.name, text, None, elem.siteFrom.name, elem.url, elem.title)
+      if(!text.isEmpty)
+        articles += ArticleDTO(elem.dateDownloaded, elem.tags.name, text, None, elem.siteFrom.name, elem.url, elem.title)
     })
     articles.foreach(elem => {
       ArticleRepository.save(elem)
