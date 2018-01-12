@@ -5,7 +5,7 @@
 -- Dumped from database version 9.5.9
 -- Dumped by pg_dump version 9.5.9
 
--- Started on 2018-01-07 20:45:16 CET
+-- Started on 2018-01-12 16:22:04 CET
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -16,7 +16,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 2143 (class 1262 OID 35521)
+-- TOC entry 2143 (class 1262 OID 35533)
 -- Name: sag_wedt; Type: DATABASE; Schema: -; Owner: -
 --
 
@@ -53,7 +53,7 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 SET search_path = public, pg_catalog;
 
 --
--- TOC entry 181 (class 1259 OID 35522)
+-- TOC entry 181 (class 1259 OID 35534)
 -- Name: article_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -70,7 +70,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- TOC entry 182 (class 1259 OID 35524)
+-- TOC entry 182 (class 1259 OID 35536)
 -- Name: Article; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -87,12 +87,11 @@ CREATE TABLE "Article" (
 
 
 --
--- TOC entry 2138 (class 0 OID 35524)
+-- TOC entry 2138 (class 0 OID 35536)
 -- Dependencies: 182
 -- Data for Name: Article; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO "Article" (id, data_downloaded, tags, text_of_article, vector, site_from, url, title) VALUES (1, 'a', 'b', 'c', 'd', 'e', 'f', 'g');
 
 
 --
@@ -101,11 +100,11 @@ INSERT INTO "Article" (id, data_downloaded, tags, text_of_article, vector, site_
 -- Name: article_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('article_id_seq', 1, false);
+SELECT pg_catalog.setval('article_id_seq', 1, true);
 
 
 --
--- TOC entry 2022 (class 2606 OID 35532)
+-- TOC entry 2022 (class 2606 OID 35544)
 -- Name: Article_pk; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -113,7 +112,7 @@ ALTER TABLE ONLY "Article"
     ADD CONSTRAINT "Article_pk" PRIMARY KEY (id);
 
 
--- Completed on 2018-01-07 20:45:16 CET
+-- Completed on 2018-01-12 16:22:04 CET
 
 --
 -- PostgreSQL database dump complete

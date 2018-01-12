@@ -1,6 +1,7 @@
 package parsers
 
 import java.net.URL
+import java.time.LocalDateTime
 
 import com.rometools.rome.feed.synd.SyndFeed
 import com.rometools.rome.io.{SyndFeedInput, XmlReader}
@@ -17,7 +18,7 @@ object FeedFetcher {
     val entries = feed.getEntries
     var articles = new ListBuffer[EntryDTO]
     entries.forEach(elem => {
-      articles += EntryDTO(url = elem.getLink, title = elem.getTitle, siteFrom = siteFrom, dateDownloaded = java.time.LocalDate.now.toString, tags = tags)
+      articles += EntryDTO(url = elem.getLink, title = elem.getTitle, siteFrom = siteFrom, dateDownloaded = LocalDateTime.now.toString, tags = tags)
     })
     articles.toList
   }
