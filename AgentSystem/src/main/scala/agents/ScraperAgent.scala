@@ -1,15 +1,16 @@
 package agents
 
 import parsers.Parser
+import enums.Tag
 import java.time.LocalDateTime
 import akka.actor.{ Actor, Props, ActorLogging, ActorSystem }
 import scala.io.StdIn
 
 object ScraperAgent {
-  def props(url: String, name: String, tag: String, parserObj: Parser): Props = Props(new ScraperAgent(url, name, tag, parserObj))
+  def props(url: String, name: String, tag: Tag, parserObj: Parser): Props = Props(new ScraperAgent(url, name, tag, parserObj))
 }
 
-class ScraperAgent(url: String, name: String, tag: String, parserObj: Parser) extends Actor with ActorLogging {
+class ScraperAgent(url: String, name: String, tag: Tag, parserObj: Parser) extends Actor with ActorLogging {
   /** TODO possibly move to constructor - start the system with scraping all articles available,
    *  but then you only want to take things that are newer than ones you've already seen
    */
