@@ -81,10 +81,11 @@ object ArticleRepository {
     articles
   }
 
-  /* def update(): Unit = {
-     val updateAction = article.update()
-     db.run(updateAction)
-
-   }*/
+  def updateVectorById(id: Int, vector: String): Unit = {
+    Await.result({
+      db.run(
+        sqlu"""UPDATE "Article" SET "vector" = ${vector} WHERE "id" = ${id}""")
+    }, Duration.Inf)
+  }
 
 }
