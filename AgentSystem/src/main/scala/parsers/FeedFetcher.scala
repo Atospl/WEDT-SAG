@@ -14,11 +14,10 @@ object FeedFetcher {
   def fetch(url: String, siteFrom: Site, tags: Tag): List[EntryDTO] = {
     val input: SyndFeedInput = new SyndFeedInput()
     val feed: SyndFeed = input.build(new XmlReader(new URL(url)))
-    val result = new ListBuffer[String]
     val entries = feed.getEntries
     var articles = new ListBuffer[EntryDTO]
     entries.forEach(elem => {
-      articles += EntryDTO(url = url, title = elem.getTitle, siteFrom = siteFrom, dateDownloaded = java.time.LocalDate.now.toString, tags = tags)
+      articles += EntryDTO(url = elem.getLink, title = elem.getTitle, siteFrom = siteFrom, dateDownloaded = java.time.LocalDate.now.toString, tags = tags)
     })
     articles.toList
   }
