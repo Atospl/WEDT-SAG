@@ -1,21 +1,8 @@
 package agents
 
-import akka.actor.{ Actor, Props, ActorSystem }
+import akka.actor.{ Actor, ActorRef, Props, ActorSystem }
 import scala.io.StdIn
-
-
-/* class UserAgent extends Actor { */
-  // override def receive: Receive = {
-    // case "createActors" =>
-      // val scrapersManager = context.actorOf(Props[ScrapersManagerAgent], "scrapersManager")
-      // val dbAgent = context.actorOf(Props[DBAgent], "dbAgent")
-      // println("all user agent child created")
-
-  // }
-
-
-/* } */
-
+import messages.Messages._
 
 object ArtCompSystemApp extends App {
   val system = ActorSystem("ArtCompSystem")
@@ -24,9 +11,14 @@ object ArtCompSystemApp extends App {
   val scrapersManager = system.actorOf(ScrapersManagerAgent.props(), "scrapersManager")
   val dbAgent = system.actorOf(DBAgent.props(), "dbAgent")
   println(s"DBAgent: $dbAgent, ScrapersManager: $scrapersManager");
-  scrapersManager ! "createScraperAgents"
-
+  createScraperAgents(scrapersManager)
   println(">>> Press ENTER to exit <<<")
   try StdIn.readLine()
   finally system.terminate()
+
+  def createScraperAgents(scrapersMgrRef: ActorRef) = {
+    println("...Creating scrapers")
+    scrapersMgrRef ! CreateScraperAgent("bbc.com", "bbc", "politics")
+
+  }
 }

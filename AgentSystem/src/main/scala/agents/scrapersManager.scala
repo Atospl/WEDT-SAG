@@ -1,5 +1,6 @@
 package agents
 
+import messages.Messages._
 import akka.actor.{ Actor, Props, ActorLogging, ActorSystem, ActorRef }
 import scala.io.StdIn
 
@@ -20,8 +21,8 @@ class ScrapersManagerAgent extends Actor with ActorLogging {
 
 
   override def receive: Receive = {
-    case "createScraperAgents" =>
-      val scraper = context.actorOf(ScraperAgent.props("http://bbc.com", "ScraperBBC"), s"scraper-bbc")
+    case CreateScraperAgent(url, name, tag) =>
+      val scraper = context.actorOf(ScraperAgent.props(url, name, tag), s"scraper-$name")
       scraperActors += "BBC" -> scraper
       log.info(s"Scraper created " + scraper)
       log.info(s"scrapers created!")
