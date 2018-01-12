@@ -1,5 +1,6 @@
 package parsers.cnnParser
 
+import parsers.Parser
 import dbagent.dtos.ArticleDTO
 import dbagent.repository.ArticleRepository
 import enums.{Site, Tag}
@@ -10,14 +11,14 @@ import parsers.FeedFetcher
 import scala.collection.mutable.ListBuffer
 
 
-object CnnParser {
+class CnnParser extends Parser {
 
   def main(args: Array[String]): Unit = {
     parse("http://rss.cnn.com/rss/cnn_allpolitics.rss", Tag.POLITICS)
     parse("http://rss.cnn.com/rss/cnn_tech.rss", Tag.TECHNOLOGY)
   }
 
-  def parse(rssUrl: String, tag: Tag): Unit = {
+  def parse(rssUrl: String, tag: Tag): ListBuffer[ArticleDTO] = {
     val feed = FeedFetcher.fetch(rssUrl, Site.CNN, tag)
     val documents = new ListBuffer[Document]
     val articles = new ListBuffer[ArticleDTO]
@@ -27,9 +28,6 @@ object CnnParser {
       if(!text.isEmpty)
         articles += ArticleDTO(elem.dateDownloaded, elem.tags.name, text, None, elem.siteFrom.name, elem.url, elem.title)
     })
-    articles.foreach(elem => {
-      ArticleRepository.save(elem)
-    })
+    return(articles)
   }
-
 }

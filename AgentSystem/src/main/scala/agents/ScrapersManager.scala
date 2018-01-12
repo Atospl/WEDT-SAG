@@ -21,8 +21,8 @@ class ScrapersManagerAgent extends Actor with ActorLogging {
 
 
   override def receive: Receive = {
-    case CreateScraperAgent(url, name, tag) =>
-      val scraper = context.actorOf(ScraperAgent.props(url, name, tag), s"scraper-$name")
+    case CreateScraperAgent(url, name, tag, parser) =>
+      val scraper = context.actorOf(ScraperAgent.props(url, name, tag, parser), s"scraper-$name")
       scraperActors += "BBC" -> scraper
       log.info(s"Scraper created " + scraper)
       log.info(s"scrapers created!")

@@ -1,5 +1,6 @@
 package parsers.bbcParser
 
+import parsers.Parser
 import dbagent.dtos.ArticleDTO
 import dbagent.repository.ArticleRepository
 import enums.{Site, Tag}
@@ -10,7 +11,7 @@ import parsers.FeedFetcher
 import scala.collection.mutable.ListBuffer
 
 
-object BbcParser {
+class BbcParser extends Parser {
 
   def main(args: Array[String]): Unit = {
     parse("http://feeds.bbci.co.uk/news/politics/rss.xml", Tag.POLITICS)
@@ -18,7 +19,7 @@ object BbcParser {
     parse("http://feeds.bbci.co.uk/news/technology/rss.xml", Tag.TECHNOLOGY)
   }
 
-  def parse(rssUrl: String, tag: Tag): Unit = {
+  def parse(rssUrl: String, tag: Tag): ListBuffer[ArticleDTO] = {
     val feed = FeedFetcher.fetch(rssUrl, Site.BBC, tag)
     val documents = new ListBuffer[Document]
     val articles = new ListBuffer[ArticleDTO]
@@ -28,9 +29,7 @@ object BbcParser {
       if(!text.isEmpty)
         articles += ArticleDTO(elem.dateDownloaded, elem.tags.name, text, None, elem.siteFrom.name, elem.url, elem.title)
     })
-    articles.foreach(elem => {
-      ArticleRepository.save(elem)
-    })
+    return(articles)
   }
 
 }
