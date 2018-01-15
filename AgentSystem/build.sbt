@@ -17,3 +17,5 @@ libraryDependencies ++= Seq(
   "com.rometools" % "rome" % "1.9.0",
   "org.jsoup" % "jsoup" % "1.11.2"
 )
+
+scalacOptions += "-feature"
