@@ -27,9 +27,9 @@ class BbcParser extends Parser {
       val document = Jsoup.connect(elem.url).get()
       val text = document.select(".story-body__inner > p").text()
       if(!text.isEmpty)
-        articles += ArticleDTO(elem.dateDownloaded, elem.tags.name, text, None, elem.siteFrom.name, elem.url, elem.title)
+        articles += ArticleDTO(elem.dateDownloaded, elem.tags.name, text, None, elem.siteFrom.name, elem.url, elem.title, elem.publishedDate)
     })
-    return(articles)
+    articles
   }
 
 }

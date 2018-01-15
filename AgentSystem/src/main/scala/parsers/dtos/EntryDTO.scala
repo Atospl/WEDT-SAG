@@ -1,5 +1,7 @@
 package parsers.dtos
 
+import java.sql.Timestamp
+
 import enums._
 
 case class EntryDTO
@@ -8,5 +10,6 @@ case class EntryDTO
   tags: Tag,
   siteFrom: Site,
   url: String,
-  title: String
+  title: String,
+  publishedDate: Timestamp
 )

@@ -1,5 +1,7 @@
 package dbagent.dtos
 
+import java.sql.Timestamp
+
 case class ArticleDTO
 (
   dataDownloaded: String,
@@ -8,6 +10,7 @@ case class ArticleDTO
   vector: Option[String],
   siteFrom: String,
   url: String,
-  title: String
+  title: String,
+  publishedDate: Timestamp
 )
 

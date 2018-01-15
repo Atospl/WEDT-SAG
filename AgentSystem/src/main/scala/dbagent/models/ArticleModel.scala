@@ -1,5 +1,7 @@
 package dbagent.models
 
+import java.sql.Timestamp
+
 case class ArticleModel
 (
   id: Int,
@@ -9,6 +11,7 @@ case class ArticleModel
   vector: Option[String],
   siteFrom: String,
   url: String,
-  title: String
+  title: String,
+  publishedDate: Timestamp
 )
 

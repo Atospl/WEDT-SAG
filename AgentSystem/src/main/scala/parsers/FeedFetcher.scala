@@ -1,6 +1,7 @@
 package parsers
 
 import java.net.URL
+import java.sql.Timestamp
 import java.time.LocalDateTime
 
 import com.rometools.rome.feed.synd.SyndFeed
@@ -18,7 +19,9 @@ object FeedFetcher {
     val entries = feed.getEntries
     var articles = new ListBuffer[EntryDTO]
     entries.forEach(elem => {
-      articles += EntryDTO(url = elem.getLink, title = elem.getTitle, siteFrom = siteFrom, dateDownloaded = LocalDateTime.now.toString, tags = tags)
+      if (elem.getPublishedDate != null) {
+        articles += EntryDTO(url = elem.getLink, title = elem.getTitle, siteFrom = siteFrom, dateDownloaded = LocalDateTime.now.toString, tags = tags, publishedDate = new Timestamp(elem.getPublishedDate.getTime))
+      }
     })
     articles.toList
   }
