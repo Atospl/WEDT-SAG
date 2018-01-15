@@ -1,6 +1,8 @@
 package agents
 
-import dbagent.repository
+import messages.Messages._
+import dbagent.repository.ArticleRepository
+
 import akka.actor.{ Actor, Props, ActorLogging, ActorSystem }
 import scala.io.StdIn
 
@@ -11,19 +13,14 @@ object DBAgent {
 class DBAgent extends Actor with ActorLogging {
   override def preStart(): Unit = {
     log.info("DBAgent started...")
-
-
   }
 
 
   override def receive: Receive = {
-    case "saveArticle" =>
-      log.info("Saving article...")
-
-    case "getPolitics" =>
-      log.info("Retrieving political articles")
-
-    case "getScience" =>
-      log.info("Retrieving scientifical articles")
+    case SaveArticles(articles) =>
+      log.info("Saving articles..")
+      articles.foreach(elem => {
+        ArticleRepository.save(elem)
+      })
   }
 }
