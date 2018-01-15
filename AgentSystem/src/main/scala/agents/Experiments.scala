@@ -23,7 +23,7 @@ object ArtCompSystemApp extends App {
 //  system.scheduler.scheduleOnce(50 milliseconds, scrapersManager, OrderScrapping)
   val scrappingSchedule = system.scheduler.schedule(
                              50 milliseconds,
-                             60 minutes,
+                             1 minutes,
                              scrapersManager,
                              OrderScrapping) 
 //  println("Scrapping scheduled!")
