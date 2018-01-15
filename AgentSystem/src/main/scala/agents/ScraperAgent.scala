@@ -2,6 +2,9 @@ package agents
 
 import parsers.Parser
 import enums.Tag
+import messages.Messages._
+
+
 import java.time.LocalDateTime
 import akka.actor.{ Actor, Props, ActorLogging, ActorSystem }
 import scala.io.StdIn
@@ -21,9 +24,12 @@ class ScraperAgent(url: String, name: String, tag: Tag, parserObj: Parser) exten
   }
 
   override def receive: Receive = {
-    case "scrape" =>
+    case Scrap =>
       log.info(s"Scraping...")
-
-
+      log.info(lastTimeUsed.toString())
+      var articleList = parserObj.parse(url, tag)
+      articleList = articleList.filter(x => lastTimeUsed.isBefore(LocalDateTime.parse(x.dataDownloaded)))
+      //log.info(articleList.length + " articles found!")
+      lastTimeUsed = LocalDateTime.now()
   }
 }

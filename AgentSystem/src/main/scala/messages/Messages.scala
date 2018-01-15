@@ -10,7 +10,8 @@ object Messages {
   /** Orders ScrapersManager to begin process of scraping in every underlying actor */
   final case class OrderScrapping()
 
-
+  /** Orders scrapers to parse and save results into db */
+  final case class Scrap()
 
 
 

@@ -29,8 +29,8 @@ class ScrapersManagerAgent extends Actor with ActorLogging {
       log.info(s"scrapers created!")
 
     case OrderScrapping =>
-      log.info("Scrapping ordered...")
-      scraperActors.foreach(kvpair => kvpair._2 ! "scrape")
+      log.info("Scraping ordered...")
+      scraperActors.foreach(kvpair => kvpair._2 ! Scrap)
 
     case "runScrapers" =>
       log.info(s"scrapers running!")
