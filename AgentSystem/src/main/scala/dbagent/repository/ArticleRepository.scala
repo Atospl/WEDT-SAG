@@ -3,6 +3,7 @@ package dbagent.repository
 import dbagent.dtos.ArticleDTO
 import dbagent.models.ArticleModel
 import slick.jdbc.PostgresProfile.api._
+import java.sql.Timestamp
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
@@ -32,7 +33,9 @@ object ArticleRepository {
 
     def title = column[String]("title")
 
-    def * = (id, dataDownloaded, tags, textOfArticle, vector, siteFrom, url, title) <> (ArticleModel.tupled, ArticleModel.unapply)
+    def publishedDate = column[Timestamp]("published_date")
+
+    def * = (id, dataDownloaded, tags, textOfArticle, vector, siteFrom, url, title, publishedDate) <> (ArticleModel.tupled, ArticleModel.unapply)
 
   }
 
@@ -44,19 +47,19 @@ object ArticleRepository {
     }, Duration.Inf)
   }
 
-  def save(dataDownloaded: String, tags: String, textOfArticle: String, vector: String, siteFrom: String, url: String, title: String) = {
+  def save(dataDownloaded: String, tags: String, textOfArticle: String, vector: String, siteFrom: String, url: String, title: String, publishedDate: Timestamp) = {
     Await.result({
       db.run(
-        sqlu"""INSERT INTO "Article"("data_downloaded","tags","text_of_article","vector","site_from","url","title")
-                VALUES (${dataDownloaded},${tags},${textOfArticle}, ${vector}, ${siteFrom}, ${url}, ${title})""")
+        sqlu"""INSERT INTO "Article"("data_downloaded","tags","text_of_article","vector","site_from","url","title", "published_date")
+                VALUES (${dataDownloaded},${tags},${textOfArticle}, ${vector}, ${siteFrom}, ${url}, ${title}, ${publishedDate})""")
     }, Duration.Inf)
   }
 
   def save(model: ArticleDTO) = {
     Await.result({
       db.run(
-        sqlu"""INSERT INTO "Article"("data_downloaded","tags","text_of_article","vector","site_from","url","title")
-                VALUES (${model.dataDownloaded},${model.tags},${model.textOfArticle}, ${model.vector}, ${model.siteFrom}, ${model.url}, ${model.title})""")
+        sqlu"""INSERT INTO "Article"("data_downloaded","tags","text_of_article","vector","site_from","url","title", "published_date")
+                VALUES (${model.dataDownloaded},${model.tags},${model.textOfArticle}, ${model.vector}, ${model.siteFrom}, ${model.url}, ${model.title}, ${model.publishedDate})""")
     }, Duration.Inf)
   }
 

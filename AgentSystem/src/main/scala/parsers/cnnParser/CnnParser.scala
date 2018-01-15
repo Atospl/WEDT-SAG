@@ -2,7 +2,6 @@ package parsers.cnnParser
 
 import parsers.Parser
 import dbagent.dtos.ArticleDTO
-import dbagent.repository.ArticleRepository
 import enums.{Site, Tag}
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -26,8 +25,9 @@ class CnnParser extends Parser {
       val document = Jsoup.connect(elem.url).get()
       val text = document.select(".zn-body__paragraph").text()
       if(!text.isEmpty)
-        articles += ArticleDTO(elem.dateDownloaded, elem.tags.name, text, None, elem.siteFrom.name, elem.url, elem.title)
+        articles += ArticleDTO(elem.dateDownloaded, elem.tags.name, text, None, elem.siteFrom.name, elem.url, elem.title, elem.publishedDate)
     })
-    return(articles)
+    articles
   }
+
 }
