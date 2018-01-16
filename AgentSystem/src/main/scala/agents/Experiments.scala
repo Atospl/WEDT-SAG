@@ -8,7 +8,9 @@ import akka.actor.{ Actor, ActorRef, Props, ActorSystem }
 import scala.concurrent.duration._
 import scala.language.postfixOps
 import scala.io.StdIn
+import java.time.LocalDate
 import messages.Messages._
+import scala.util.control.Breaks._
 
 object ArtCompSystemApp extends App {
   /** Create /user/ descendants */
@@ -20,19 +22,69 @@ object ArtCompSystemApp extends App {
   createScraperAgents(scrapersManager)
 
   /** Schedule scrapping every 5 minutes */
-//  system.scheduler.scheduleOnce(50 milliseconds, scrapersManager, OrderScrapping)
   val scrappingSchedule = system.scheduler.schedule(
                              50 milliseconds,
                              1 minutes,
                              scrapersManager,
                              OrderScrapping) 
-//  println("Scrapping scheduled!")
-
-
-
+  handleUser()
 //  println(">>> Press ENTER to exit <<<")
+  
   try StdIn.readLine()
   finally system.terminate()
+  
+  def handleUser() = {
+    var userTagInt: Int = -1
+    var tagMap = Map.empty[Int, Tag]  
+    /** values provided by the user */
+    var userTag: Tag = Tag.TECHNOLOGY
+    var dateFrom: LocalDate = LocalDate.now()
+    var dateTo: LocalDate = LocalDate.now()
+    //////////////////////////////////////////////
+    
+    /** Getting tag from user */
+    var tagRange = Tag.values.zipWithIndex
+    do {
+      println("Choose thematics of article you're interested in:")
+      for((d, i) <- tagRange) {
+        println("[%d] %s".format(i, d)) 
+        tagMap += i -> d
+      }
+      try userTagInt = StdIn.readInt()
+      catch { case e: Throwable => {} }
+    }
+    while(!(0 to tagRange.length - 1).contains(userTagInt))
+    println("Okay!")
+    userTag = tagMap(userTagInt)
+    /** Getting dates of articles from user */
+    var datesAllright = false
+    do {
+      println("Write date from which articles shall be considered")
+      println("Eg. 2017-12-31")
+      try {
+        dateFrom = LocalDate.parse(StdIn.readLine())
+        datesAllright = true
+      }
+      catch { case e: Throwable => {} }
+    }
+    while(!datesAllright)
+    datesAllright = false
+    do {
+      println("Write date from which articles shall be considered")
+      try {
+        dateTo = LocalDate.parse(StdIn.readLine())
+        datesAllright = true
+      }
+      catch { case e: Throwable => {} }
+    }
+    while(!datesAllright)
+
+    println("Your picks:")
+    println(userTag)
+    println(dateFrom)
+    println(dateTo)
+
+  }
 
   def createScraperAgents(scrapersMgrRef: ActorRef) = {
     println("...Creating scrapers")
