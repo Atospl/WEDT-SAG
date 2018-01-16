@@ -1,7 +1,7 @@
 import json
 
 import numpy as np
-from flask import Flask
+from flask import Flask, jsonify
 from flask_restful import Resource, Api, reqparse, abort
 import sys
 from article2vec import Article2Vec
@@ -20,7 +20,15 @@ class Vector(Resource):
             abort(404, message="Text field empty")
 
         article = Article(args['text'])
-        return {'vector': article2vec.vector(article)}
+        resp = {'vector': article2vec.vector(article)}
+
+        resp = app.response_class(
+        response=json.dumps(resp),
+        status=200,
+        mimetype='application/json'
+    )
+        resp.headers['Connection'] = 'close'
+        return resp
 
 
 class Similar(Resource):
