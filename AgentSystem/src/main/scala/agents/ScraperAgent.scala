@@ -27,7 +27,7 @@ class ScraperAgent(url: String, name: String, tag: Tag, parserObj: Parser) exten
   override def receive: Receive = {
     case Scrap =>
       var articleList = parserObj.parse(url, tag)
-      articleList = articleList.filter(x => lastTimeUsed.isBefore(x.publishedDate.toLocalDateTime()))
+      articleList = articleList.filter(x => x.publishedDate.toLocalDateTime().isAfter(lastTimeUsed))
       log.info(articleList.length + " articles found!")
       lastTimeUsed = LocalDateTime.now()
       articleList.foreach { elem => {
