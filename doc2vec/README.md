@@ -25,7 +25,7 @@ np.
 
 Uruchamianie (w virtualenv):
 
-> $ python nlp_server.py
+> $ python nlp_server.py model
 
 ### Liczenie wektorów
 
