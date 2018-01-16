@@ -85,12 +85,22 @@ object ArtCompSystemApp extends App {
     var articlesOption = ArticleRepository.getByTagName(userTag.name)
     var articles: List[dbagent.models.ArticleModel] = null
     if(!articlesOption.isEmpty){
+      var userArtInt = -1
       articles = articlesOption.get
       // get rid of younger than dateFrom and older than date to
       articles = articles.filter(x =>
         x.publishedDate.toLocalDateTime().isAfter(dateFrom.atStartOfDay())  &&
           x.publishedDate.toLocalDateTime().isBefore(dateTo.atStartOfDay()))
-      print(articles.length)
+      do {
+        println("Choose article to find most similar to:")
+        for((art, i) <- articles.zipWithIndex) {
+          println("[%d], %s".format(i, art.title))
+        }
+        try userArtInt = StdIn.readInt()
+        catch { case e: Throwable => {} }
+      }
+      while(!(0 to articles.length - 1).contains(userArtInt))
+      var article = articles(userArtInt)
     }
     else
     {
