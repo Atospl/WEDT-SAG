@@ -12,6 +12,8 @@ echo "Installing requirements"
 pip install -r requirements.txt
 
 python -c "import nltk; nltk.download('reuters')"
+python -c "import nltk; nltk.download('nonbreaking_prefixes')"
+python -c "import nltk; nltk.download('perluniprops')"
 
 echo "Generating doc2vec model"
 

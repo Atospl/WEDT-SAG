@@ -3,6 +3,8 @@
 
 Testowany na pythonie 3.4
 
+> $ sudo pip install virtualenv
+
 > $ ./setup.sh
 
 > $ . venv/bin/activate
