@@ -13,6 +13,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import messages.Messages._
 import scala.util.control.Breaks._
+import HttpService.HttpService
 
 object ArtCompSystemApp extends App {
   /** Create /user/ descendants */
@@ -28,28 +29,28 @@ object ArtCompSystemApp extends App {
                              50 milliseconds,
                              1 minutes,
                              scrapersManager,
-                             OrderScrapping) 
+                             OrderScrapping)
   handleUser()
 //  println(">>> Press ENTER to exit <<<")
-  
+
   try StdIn.readLine()
   finally system.terminate()
-  
+
   def handleUser() = {
     var userTagInt: Int = -1
-    var tagMap = Map.empty[Int, Tag]  
+    var tagMap = Map.empty[Int, Tag]
     /** values provided by the user */
     var userTag: Tag = Tag.TECHNOLOGY
     var dateFrom: LocalDate = LocalDate.now()
     var dateTo: LocalDate = LocalDate.now()
     //////////////////////////////////////////////
-    
+
     /** Getting tag from user */
     var tagRange = Tag.values.zipWithIndex
     do {
       println("Choose thematics of article you're interested in:")
       for((d, i) <- tagRange) {
-        println("[%d] %s".format(i, d)) 
+        println("[%d] %s".format(i, d))
         tagMap += i -> d
       }
       try userTagInt = StdIn.readInt()
@@ -72,7 +73,7 @@ object ArtCompSystemApp extends App {
     while(!datesAllright)
     datesAllright = false
     do {
-      println("Write date from which articles shall be considered")
+      println("Write date until which articles shall be considered")
       try {
         dateTo = LocalDate.parse(StdIn.readLine())
         datesAllright = true
@@ -80,10 +81,12 @@ object ArtCompSystemApp extends App {
       catch { case e: Throwable => {} }
     }
     while(!datesAllright)
-    
+
     /** Selecting article */
     var articlesOption = ArticleRepository.getByTagName(userTag.name)
     var articles: List[dbagent.models.ArticleModel] = null
+
+    var article: dbagent.models.ArticleModel = null
     if(!articlesOption.isEmpty){
       var userArtInt = -1
       articles = articlesOption.get
@@ -91,6 +94,12 @@ object ArtCompSystemApp extends App {
       articles = articles.filter(x =>
         x.publishedDate.toLocalDateTime().isAfter(dateFrom.atStartOfDay())  &&
           x.publishedDate.toLocalDateTime().isBefore(dateTo.atStartOfDay()))
+
+      if(articles.size == 0) {
+        // EXIT 1
+        println("Articles not found")
+        system.terminate()
+      }
       do {
         println("Choose article to find most similar to:")
         for((art, i) <- articles.zipWithIndex) {
@@ -100,13 +109,30 @@ object ArtCompSystemApp extends App {
         catch { case e: Throwable => {} }
       }
       while(!(0 to articles.length - 1).contains(userArtInt))
-      var article = articles(userArtInt)
+      article = articles(userArtInt)
     }
     else
     {
+      // EXIT 1
       println("Articles not found")
       system.terminate()
     }
+
+    /** Showing top 10 similar articles*/
+      println("Similar articles: ")
+      try {
+        var similar = HttpService.getSimilar(article, articles.slice(1, articles.size))
+        if(similar.size > 10) {
+          similar = similar.slice(0, 10)
+        }
+        similar.foreach(elem => {
+          val id = elem.id
+          val title = articles.find(_.id.toString == id).get.title
+          println("[%s], %s".format(title, elem.similarity))
+        })
+      }
+      catch { case e: Throwable => {} }
+    // EXIT 1
 
 }
 
