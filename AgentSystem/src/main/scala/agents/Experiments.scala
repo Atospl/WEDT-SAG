@@ -7,8 +7,10 @@ import enums.{Site, Tag}
 import akka.actor.{ Actor, ActorRef, Props, ActorSystem }
 import scala.concurrent.duration._
 import scala.language.postfixOps
+import dbagent.repository.ArticleRepository
 import scala.io.StdIn
 import java.time.LocalDate
+import java.time.LocalDateTime
 import messages.Messages._
 import scala.util.control.Breaks._
 
@@ -78,13 +80,23 @@ object ArtCompSystemApp extends App {
       catch { case e: Throwable => {} }
     }
     while(!datesAllright)
-
-    println("Your picks:")
-    println(userTag)
-    println(dateFrom)
-    println(dateTo)
-
-  }
+    
+    /** Selecting article */
+    var articlesOption = ArticleRepository.getByTagName(userTag.name)
+    var articles: List[dbagent.models.ArticleModel] = null
+    if(articles.size > 0)
+      articles = articlesOption.get
+    else
+    {
+      println("Articles not found")
+      system.terminate()
+    }
+    // get rid of younger than dateFrom and older than date to
+    articles = articles.filter(x => 
+        x.publishedDate.toLocalDateTime().isAfter(dateFrom.atStartOfDay())  &&
+        x.publishedDate.toLocalDateTime().isBefore(dateTo.atStartOfDay()))
+    print(articles.length)
+}
 
   def createScraperAgents(scrapersMgrRef: ActorRef) = {
     println("...Creating scrapers")
