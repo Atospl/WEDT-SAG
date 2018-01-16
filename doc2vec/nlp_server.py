@@ -47,9 +47,15 @@ class Similar(Resource):
         vectors_dict = {}
         for v in vectors:
             vectors_dict[v['id']] = np.array(v['vector'])
+        resp = find_n_most_similar_vectors(vectors_dict, query_vector_id)
 
-        return find_n_most_similar_vectors(vectors_dict, query_vector_id)
+        resp = app.response_class(
+        response=json.dumps(resp),
+        status=200,
+        mimetype='application/json'
+        resp.headers['Connection'] = 'close'
 
+        return resp
 parser = reqparse.RequestParser()
 parser.add_argument('text')
 parser.add_argument('json')
