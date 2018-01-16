@@ -3,7 +3,7 @@ package agents
 import messages.Messages._
 import dbagent.repository.ArticleRepository
 
-import akka.actor.{ Actor, Props, ActorLogging, ActorSystem }
+import akka.actor.{Actor, Props, ActorLogging, ActorSystem}
 import scala.io.StdIn
 
 object DBAgent {
@@ -22,5 +22,10 @@ class DBAgent extends Actor with ActorLogging {
       articles.foreach(elem => {
         ArticleRepository.save(elem)
       })
+
+    case SaveArticle(article) =>
+      log.info("Saving article..")
+      ArticleRepository.save(article)
   }
+
 }

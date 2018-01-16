@@ -8,7 +8,7 @@ case class ArticleModel
   dataDownloaded: String,
   tags: String,
   textOfArticle: String,
-  vector: Option[String],
+  vector: String,
   siteFrom: String,
   url: String,
   title: String,

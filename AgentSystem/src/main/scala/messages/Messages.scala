@@ -19,4 +19,7 @@ object Messages {
   /** Send to DBAgent, orders saving articles into database */
   final case class SaveArticles(articles: ListBuffer[ArticleDTO])
 
+  /** Send to DBAgent, orders saving article into database */
+  final case class SaveArticle(article: ArticleDTO)
+
 }

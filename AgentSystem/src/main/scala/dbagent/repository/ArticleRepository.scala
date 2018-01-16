@@ -25,7 +25,7 @@ object ArticleRepository {
 
     def textOfArticle = column[String]("text_of_article")
 
-    def vector = column[Option[String]]("vector")
+    def vector = column[String]("vector")
 
     def siteFrom = column[String]("site_from")
 
