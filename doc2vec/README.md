@@ -3,33 +3,38 @@
 
 Testowany na pythonie 3.4
 
-> pip install gensim
+> $ ./setup.sh
 
-> pip install nltk
+> $ . venv/bin/activate
 
-Ściągniecie korpusu
-
-> python -c 'import nltk; nltk.download("reuters")'
-
-## Trening
-
-Trenuje model doc2vec na korpusie wiadomości reutersa (treningowym) i zapisuje we
-wskazanym pliku (czas treningu ~10s)
-
-> python train.py MODEL_OUTPUT
-
-np.
-
-> python train.py model
-
-## Testy
+## Test
 
 Wczytuje model i znajduje w korpusie testowym dwie najbardziej podobne
 wiadomości do wiadomości o podanym numerze z zakresu
 [0, rozmiar korpusu]. Jak podany numer za duży to się wywali.
 
-> python test.py MODEL_INPUT TEST_CASE_NUMBER
+> $ python test.py MODEL_INPUT TEST_CASE_NUMBER
 
 np.
 
-> python test.py model 2
+> $ python test.py model 2
+
+##Serwer
+
+Uruchamianie (w virtualenv):
+
+> $ python nlp_server.py
+
+### Liczenie wektorów
+
+> $ curl http://localhost:5000/vector -d "text=Quick brown fox jumped over the lazy dog" -X GET
+
+Treść artykułu jako prarametr *text*, *GET*
+
+### Porównywanie wektorów
+
+Przykładowy json w *request.json*.
+
+Json jako parametr *json*. Metoda *POST*.
+
+> $ curl http://localhost:5000/similar -d "json=`cat request.json`"

@@ -11,6 +11,6 @@ testing_corpus = get_tagged_documents_reuters("testing")
 model = Doc2Vec()
 
 model.build_vocab(training_corpus)
-model.train(training_corpus, total_examples=len(training_corpus), epochs=10)
+model.train(training_corpus, total_examples=len(training_corpus), epochs=20)
 
 model.save(sys.argv[1])
