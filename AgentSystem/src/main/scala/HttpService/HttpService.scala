@@ -24,8 +24,9 @@ import scala.collection.mutable.ListBuffer
 
 object HttpService {
 
-  implicit val system = ActorSystem()
-
+  //to run main method uncomment line below
+  //implicit val system = ActorSystem()
+  implicit val system = ArtCompSystemApp.system
   implicit val materializer = ActorMaterializer()
   implicit val executionContext = system.dispatcher
 
