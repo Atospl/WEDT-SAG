@@ -84,18 +84,20 @@ object ArtCompSystemApp extends App {
     /** Selecting article */
     var articlesOption = ArticleRepository.getByTagName(userTag.name)
     var articles: List[dbagent.models.ArticleModel] = null
-    if(articles.size > 0)
+    if(!articlesOption.isEmpty){
       articles = articlesOption.get
+      // get rid of younger than dateFrom and older than date to
+      articles = articles.filter(x =>
+        x.publishedDate.toLocalDateTime().isAfter(dateFrom.atStartOfDay())  &&
+          x.publishedDate.toLocalDateTime().isBefore(dateTo.atStartOfDay()))
+      print(articles.length)
+    }
     else
     {
       println("Articles not found")
       system.terminate()
     }
-    // get rid of younger than dateFrom and older than date to
-    articles = articles.filter(x => 
-        x.publishedDate.toLocalDateTime().isAfter(dateFrom.atStartOfDay())  &&
-        x.publishedDate.toLocalDateTime().isBefore(dateTo.atStartOfDay()))
-    print(articles.length)
+
 }
 
   def createScraperAgents(scrapersMgrRef: ActorRef) = {
