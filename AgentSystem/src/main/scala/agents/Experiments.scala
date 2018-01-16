@@ -121,9 +121,9 @@ object ArtCompSystemApp extends App {
     /** Showing top 10 similar articles*/
       println("Similar articles: ")
       try {
-        var similar = HttpService.getSimilar(article, articles.slice(1, articles.size))
-        if(similar.size > 10) {
-          similar = similar.slice(0, 10)
+        var similar = HttpService.getSimilar(article, articles)
+        if(similar.size > 11) {
+          similar = similar.slice(0, 11)
         }
         similar.foreach(elem => {
           val id = elem.id
