@@ -36,10 +36,11 @@ class Similar(Resource):
         vectors = request_json['vectors']
         query_vector_id = request_json['query_id']
 
-        for vid in vectors:
-            vectors[vid] = np.array(vectors[vid])
+        vectors_dict = {}
+        for v in vectors:
+            vectors_dict[v['id']] = np.array(v['vector'])
 
-        return find_n_most_similar_vectors(vectors, query_vector_id)
+        return find_n_most_similar_vectors(vectors_dict, query_vector_id)
 
 parser = reqparse.RequestParser()
 parser.add_argument('text')

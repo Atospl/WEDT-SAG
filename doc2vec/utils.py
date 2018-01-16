@@ -86,9 +86,10 @@ def find_n_most_similar_articles(model: Doc2Vec, article_list, article: Article,
     return similarities[0:n]
 
 
-def find_n_most_similar_vectors(vectors_dict: dict, query_vector_id:str, n:int =3 ):
+def find_n_most_similar_vectors(vectors_dict: dict, query_vector_id:str, n:int = 0 ):
     query_vector = vectors_dict[query_vector_id]
-
+    if n == 0:
+        n = len(query_vector)
     similar = sorted(
         map(lambda item: (item[0], vector_similarity(query_vector, item[1])),
             vectors_dict.items()
