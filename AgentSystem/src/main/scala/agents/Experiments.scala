@@ -49,6 +49,7 @@ object ArtCompSystemApp extends App {
     /** Getting tag from user */
     var tagRange = Tag.values.zipWithIndex
     do {
+      println("\n\nWelcome to Article Comparison App!")
       println("Choose thematics of article you're interested in:")
       for((d, i) <- tagRange) {
         println("[%d] %s".format(i, d))
@@ -129,7 +130,8 @@ object ArtCompSystemApp extends App {
         similar.foreach(elem => {
           val id = elem.id
           val title = articles.find(_.id.toString == id).get.title
-          println("[%s], %s".format(title, elem.similarity))
+          val url = articles.find(_.id.toString == id).get.url
+          println("[%s], %s \n %s".format(title, elem.similarity, url))
         })
       }
       catch { case e: Throwable => {} }
