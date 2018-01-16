@@ -18,7 +18,7 @@ class ScraperAgent(url: String, name: String, tag: Tag, parserObj: Parser) exten
   /** Start the system with scraping all articles available,
     * but then you only want to take things that are newer than ones you've already seen
     */
-  var lastTimeUsed = LocalDateTime.of(2017, 1, 1, 0, 0)
+  var lastTimeUsed = LocalDateTime.of(2018, 1, 17, 0, 0)
 
   override def preStart(): Unit = {
     log.info("Scraper Agent started...")

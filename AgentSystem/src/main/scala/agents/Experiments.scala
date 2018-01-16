@@ -27,10 +27,11 @@ object ArtCompSystemApp extends App {
   /** Schedule scrapping every 5 minutes */
   val scrappingSchedule = system.scheduler.schedule(
                              50 milliseconds,
-                             1 minutes,
+                             60 minutes,
                              scrapersManager,
                              OrderScrapping)
-  handleUser()
+  while(true)
+    handleUser()
 //  println(">>> Press ENTER to exit <<<")
 
   try StdIn.readLine()
