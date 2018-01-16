@@ -53,6 +53,7 @@ class Similar(Resource):
         response=json.dumps(resp),
         status=200,
         mimetype='application/json'
+        )
         resp.headers['Connection'] = 'close'
 
         return resp
