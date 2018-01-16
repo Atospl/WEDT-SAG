@@ -6,6 +6,7 @@ from flask_restful import Resource, Api, reqparse, abort
 import sys
 from article2vec import Article2Vec
 from utils import Article, find_n_most_similar_vectors
+import string
 
 
 app = Flask(__name__)
@@ -39,8 +40,7 @@ class Similar(Resource):
 
         if args['json'] is None:
             abort(404, message="son field empty")
-
-        request_json = json.loads(args['json'])
+        request_json = json.loads(args['json'].replace('\'', '\"'))
         vectors = request_json['vectors']
         query_vector_id = request_json['query_id']
 
