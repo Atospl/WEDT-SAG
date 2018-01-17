@@ -32,7 +32,7 @@ class ScraperAgent(url: String, name: String, tag: Tag, parserObj: Parser) exten
       lastTimeUsed = LocalDateTime.now()
       articleList.foreach { elem => {
           if (articleList.length > 0) {
-            system.actorSelection("akka.tcp://ArtCompSystem@127.0.0.1:2552/user/dbAgent") ! SaveArticle(elem)
+            system.actorSelection("akka.tcp://ArtCompSystem@192.168.42.79:2552/user/dbAgent") ! SaveArticle(elem)
           }
         }
       }

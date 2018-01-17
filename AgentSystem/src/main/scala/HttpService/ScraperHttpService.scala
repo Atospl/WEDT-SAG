@@ -43,7 +43,7 @@ object ScraperHttpService {
     val parameters = Map("text" -> text)
     var vector = ""
     Await.result({
-      Http().singleRequest(HttpRequest(uri = Uri("http://localhost:5000/vector").withQuery(Query(parameters)))).map {
+      Http().singleRequest(HttpRequest(uri = Uri("http://192.168.42.129:5000/vector").withQuery(Query(parameters)))).map {
         value =>
           var resp = None: Option[Vec]
           Await.result({

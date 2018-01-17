@@ -19,7 +19,7 @@ object ArtCompSystemApp extends App {
   /** Create /user/ descendants */
   val system = ActorSystem("ArtCompSystem")
   import system.dispatcher
-  val scrapersManager = system.actorSelection("akka.tcp://ArtCompSystem@127.0.0.1:2553/user/scrapersManager")
+  val scrapersManager = system.actorSelection("akka.tcp://ArtCompSystem@192.168.42.55:2553/user/scrapersManager")
   val dbAgent = system.actorOf(DBAgent.props(), "dbAgent")
   createScraperAgents(scrapersManager)
   while(true)
