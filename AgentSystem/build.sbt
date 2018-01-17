@@ -22,7 +22,3 @@ libraryDependencies ++= Seq(
 )
 
 scalacOptions += "-feature"
-
-lazy val root = (project in file("."))
-.enablePlugins(MultiJvmPlugin)
-.configs(MultiJvm)
