@@ -24,7 +24,6 @@ object ArtCompSystemApp extends App {
   createScraperAgents(scrapersManager)
   while(true)
     handleUser()
-//  println(">>> Press ENTER to exit <<<")
 
   try StdIn.readLine()
   finally system.terminate()
@@ -90,7 +89,6 @@ object ArtCompSystemApp extends App {
           x.publishedDate.toLocalDateTime().isBefore(dateTo.atStartOfDay()))
 
       if(articles.size == 0) {
-        // EXIT 1
         println("Articles not found")
         system.terminate()
       }
@@ -107,15 +105,16 @@ object ArtCompSystemApp extends App {
     }
     else
     {
-      // EXIT 1
       println("Articles not found")
       system.terminate()
     }
 
     /** Showing top 10 similar articles*/
-      println("Similar articles: ")
       try {
         var similar = AppHttpService.getSimilar(article, articles)
+        if(similar.size > 0) {
+          println("Similar articles: ")
+        }
         if(similar.size > 11) {
           similar = similar.slice(0, 11)
         }
@@ -127,8 +126,6 @@ object ArtCompSystemApp extends App {
         })
       }
       catch { case e: Throwable => {} }
-    // EXIT 1
-
 }
 
   def createScraperAgents(scrapersMgrRef: ActorSelection) = {
