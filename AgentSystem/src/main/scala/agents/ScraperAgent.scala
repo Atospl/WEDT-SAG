@@ -7,7 +7,6 @@ import java.sql.Timestamp
 import java.time.LocalDateTime
 
 import akka.actor.{Actor, ActorLogging, ActorSystem, Props}
-import HttpService.HttpService
 import scala.io.StdIn
 
 object ScraperAgent {
@@ -19,6 +18,7 @@ class ScraperAgent(url: String, name: String, tag: Tag, parserObj: Parser) exten
     * but then you only want to take things that are newer than ones you've already seen
     */
   var lastTimeUsed = LocalDateTime.of(2018, 1, 17, 0, 0)
+  implicit val system = ScrapersManager.system
 
   override def preStart(): Unit = {
     log.info("Scraper Agent started...")
@@ -32,7 +32,7 @@ class ScraperAgent(url: String, name: String, tag: Tag, parserObj: Parser) exten
       lastTimeUsed = LocalDateTime.now()
       articleList.foreach { elem => {
           if (articleList.length > 0) {
-            context.actorSelection("/user/dbAgent") ! SaveArticle(elem)
+            system.actorSelection("akka.tcp://ArtCompSystem@127.0.0.1:2552/user/dbAgent") ! SaveArticle(elem)
           }
         }
       }

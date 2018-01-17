@@ -13,7 +13,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import messages.Messages._
 import scala.util.control.Breaks._
-import HttpService.HttpService
+import HttpService.AppHttpService
 
 object ArtCompSystemApp extends App {
   /** Create /user/ descendants */
@@ -115,7 +115,7 @@ object ArtCompSystemApp extends App {
     /** Showing top 10 similar articles*/
       println("Similar articles: ")
       try {
-        var similar = HttpService.getSimilar(article, articles)
+        var similar = AppHttpService.getSimilar(article, articles)
         if(similar.size > 11) {
           similar = similar.slice(0, 11)
         }

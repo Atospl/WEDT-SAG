@@ -18,7 +18,11 @@ libraryDependencies ++= Seq(
   "com.rometools" % "rome" % "1.9.0",
   "org.jsoup" % "jsoup" % "1.11.2",
   "com.typesafe.akka" %% "akka-http" % "10.0.11",
-  "com.typesafe.akka" %% "akka-http-spray-json" % "10.1.0-RC1"
+  "com.typesafe.akka" %% "akka-http-spray-json" % "10.1.0-RC1",
 )
 
 scalacOptions += "-feature"
+
+lazy val root = (project in file("."))
+.enablePlugins(MultiJvmPlugin)
+.configs(MultiJvm)

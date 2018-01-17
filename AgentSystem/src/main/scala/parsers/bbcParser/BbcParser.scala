@@ -5,7 +5,7 @@ import enums.{Site, Tag}
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import parsers.FeedFetcher
-import HttpService.HttpService
+import HttpService.ScraperHttpService
 import dbagent.dtos.ArticleDTO
 
 import scala.collection.mutable.ListBuffer
@@ -21,7 +21,7 @@ class BbcParser extends Parser {
       val document = Jsoup.connect(elem.url).get()
       val text = document.select(".story-body__inner > p").text()
       if (!text.isEmpty) {
-        val vector = HttpService.getVector(text)
+        val vector = ScraperHttpService.getVector(text)
         articles += ArticleDTO(elem.dateDownloaded, elem.tags.name, text, vector, elem.siteFrom.name, elem.url, elem.title, elem.publishedDate)
       }
     })

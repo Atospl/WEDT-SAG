@@ -1,12 +1,16 @@
 package agents
 
 import messages.Messages._
+import scala.concurrent.ExecutionContext.Implicits.global
 import akka.actor.{ Actor, Props, ActorLogging, ActorSystem, ActorRef }
 import scala.concurrent.duration._
 import com.typesafe.config.ConfigFactory
 import java.io.File
 import scala.io.Source
 import scala.io.StdIn
+import scala.util.control.Breaks._
+import scala.concurrent.duration._
+import scala.language.postfixOps
 
 object ScrapersManagerAgent {
   def props(): Props = Props(new ScrapersManagerAgent)
@@ -41,10 +45,17 @@ class ScrapersManagerAgent extends Actor with ActorLogging {
 }
 
 object ScrapersManager {
+  val config = ConfigFactory.parseResources("remote_application.conf")
+  val system = ActorSystem("ArtCompSystem", config)
+
+
   def main(args: Array[String]) {
-    val config = ConfigFactory.parseResources("remote_application.conf")
-    val system = ActorSystem("ArtCompSystem", config)
     val remote = system.actorOf(ScrapersManagerAgent.props(), "scrapersManager")
+    val scrappingSchedule = system.scheduler.schedule(
+                              50 milliseconds,
+                              3 minutes,
+                              remote,
+                              OrderScrapping)
     println("Remote ScrapersManager is ready!")
   }
 }

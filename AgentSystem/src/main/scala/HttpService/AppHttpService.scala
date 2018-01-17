@@ -19,7 +19,7 @@ import dtos.SimilarityDTO
 
 import scala.collection.mutable.ListBuffer
 
-object HttpService {
+object AppHttpService {
 
   implicit val system = ArtCompSystemApp.system
   implicit val materializer = ActorMaterializer()
@@ -38,23 +38,6 @@ object HttpService {
   implicit val similarVectorsWrapperFormat = jsonFormat2(SimilarVectorsWrapper)
   implicit val jsonWrapperFormat = jsonFormat1(JsonWrapper)
   implicit val similarityDtoFormat = jsonFormat2(SimilarityDTO)
-
-  def getVector(text: String): String = {
-    val parameters = Map("text" -> text)
-    var vector = ""
-    Await.result({
-      Http().singleRequest(HttpRequest(uri = Uri("http://localhost:5000/vector").withQuery(Query(parameters)))).map {
-        value =>
-          var resp = None: Option[Vec]
-          Await.result({
-            Unmarshal(value).to[Vec].map { json =>
-              vector = json.vector.mkString(",")
-            }
-          }, Duration.Inf)
-      }
-    }, Duration.Inf)
-    vector
-  }
 
   def getSimilar(article: ArticleModel, articles: List[ArticleModel]): List[SimilarityDTO] = {
     var similarity = new ListBuffer[SimilarityDTO]
