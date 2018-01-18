@@ -1,0 +1,50 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+\pagenumbering{gobble}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{hyperref}
+
+\title{\Large{Dokumentacja końcowa projektu} \\
+Projekt łączony z przedmiotów \textit{Systemy Agentowe} oraz \textit{Wstęp do eksploracji danych tekstowych w sieci WWW}}
+\author{Andrzej Dawidziuk, Tomasz Kogowski, Rafał Okuniewski}
+\begin{document}
+\maketitle
+
+\section{Wstęp}
+
+\subsection{Zadanie projektowe}
+\par Zadanie projektowe polega na wyszukiwaniu tematycznych wiadomości w Internecie oraz ich analizie semantycznej pod kątem podobieństwa i tematyki. Na potrzeby projektu analizowane będą portale informacyjne udostępniające treści w języku angielskim.
+\par Celem projektu było stworzenie rozproszonego systemu agentowego, który umożliwi zapisywanie oraz wektoryzację artykułów z różnych internetowych serwisów informacyjnych, oraz umożliwi wskazanie artykułów o podobnej treści, odnoszących się do podobnych tematów, wydarzeń, wypowiedzi.
+
+\subsection{Wykorzystane technologie}
+
+\par W celu realizacji systemu agentowego wykorzystano powszechnie stosowany framework Akka\cite{Akka}. Umożliwia on stworzenie funkcjonalnego systemu agentowego w dwóch językach - Scala oraz Java. Zespół podjął decyzję o implementacji w języku Scala.
+\par Warstwę bazodanową, w której przechowywane były informacje o pobranych ze stron informacyjnych artykułach, stanowiła baza danych Postgres.
+\par W celu stworzenia modułu odpowiedzialnego za wektoryzację oraz analizę podobieństwa artykułów wykorzystano język Python oraz biblioteki NLTK\cite{nltk} i GenSim\cite{gensim}.
+\par Ze względu na konieczność integracji modułu agentowego z modułem analitycznym, zdecydowano o integracji poprzez wykonywanie zapytań do serwera HTTP w którym osadzony był moduł analityczny. Serwer ten został wykonany z wykorzystaniem biblioteki flask\cite{flask}.
+
+\input{akka}
+
+\input{doc2vec}
+
+\input{results}
+
+\section{Podsumowanie}
+
+\bibliographystyle{unsrt}
+\bibliography{bibliography}
+
+\end{document}
