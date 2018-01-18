@@ -53,7 +53,7 @@ object ScrapersManager {
     val remote = system.actorOf(ScrapersManagerAgent.props(), "scrapersManager")
     val scrappingSchedule = system.scheduler.schedule(
                               50 milliseconds,
-                              3 minutes,
+                              1 minutes,
                               remote,
                               OrderScrapping)
     println("Remote ScrapersManager is ready!")

@@ -3,7 +3,9 @@ package enums;
 public enum Site {
 
     BBC("BBC"),
-    CNN("CNN");
+    CNN("CNN"),
+    WASHINGTONTIMES("WASHINGTONTIMES"),
+    NYTIMES("NYTIMES");
 
     public String name;
 

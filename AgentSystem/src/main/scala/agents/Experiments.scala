@@ -2,6 +2,8 @@ package agents
 
 import parsers.bbcParser._
 import parsers.cnnParser._
+import parsers.nytimesParser._
+import parsers.washingtontimesParser._
 
 import enums.{Site, Tag}
 import akka.actor.{ Actor, ActorRef, ActorSelection, Props, ActorSystem }
@@ -135,6 +137,11 @@ object ArtCompSystemApp extends App {
     scrapersMgrRef ! CreateScraperAgent("http://feeds.bbci.co.uk/news/technology/rss.xml", "bbc", Tag.TECHNOLOGY, new BbcParser)
     scrapersMgrRef ! CreateScraperAgent("http://rss.cnn.com/rss/cnn_allpolitics.rss", "cnn", Tag.POLITICS, new CnnParser)
     scrapersMgrRef ! CreateScraperAgent("http://rss.cnn.com/rss/cnn_tech.rss", "cnn", Tag.TECHNOLOGY, new CnnParser)
+    scrapersMgrRef ! CreateScraperAgent("http://rss.nytimes.com/services/xml/rss/nyt/World.xml", "nytimes", Tag.POLITICS, new NytimesParser)
+    scrapersMgrRef ! CreateScraperAgent("http://rss.nytimes.com/services/xml/rss/nyt/Technology.xml", "nytimes", Tag.TECHNOLOGY, new NytimesParser)
+    scrapersMgrRef ! CreateScraperAgent("http://rss.nytimes.com/services/xml/rss/nyt/Science.xml", "nytimes", Tag.SCIENCE, new NytimesParser)
+    scrapersMgrRef ! CreateScraperAgent("https://www.washingtontimes.com/rss/headlines/news/politics", "washingtontimes", Tag.POLITICS, new WashingtontimesParser)
+    scrapersMgrRef ! CreateScraperAgent("https://www.washingtontimes.com/rss/headlines/culture/technology", "washingtontimes", Tag.TECHNOLOGY, new WashingtontimesParser)
   }
 
 }
