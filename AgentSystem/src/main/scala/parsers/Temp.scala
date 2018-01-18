@@ -6,10 +6,10 @@ import enums.{Site, Tag}
 //import parsers.FeedFetcher
 
 object RSSTest extends App {
-  val feed = FeedFetcher.fetch("https://www.washingtontimes.com/rss/headlines/news/politics", Site.BBC, Tag.POLITICS)
+  val feed = FeedFetcher.fetch("https://www.theguardian.com/uk/technology/rss", Site.BBC, Tag.POLITICS)
   feed.foreach(elem => {
     val document = Jsoup.connect(elem.url).get()
-    val text = document.select(".bigtext > p").text()
+    val text = document.select(".content__article-body > p").text()
     println(text)
     System.exit(0)
   })

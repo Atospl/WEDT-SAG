@@ -1,5 +1,6 @@
 package agents
 
+import parsers._
 import parsers.bbcParser._
 import parsers.cnnParser._
 import parsers.nytimesParser._
@@ -142,6 +143,12 @@ object ArtCompSystemApp extends App {
     scrapersMgrRef ! CreateScraperAgent("http://rss.nytimes.com/services/xml/rss/nyt/Science.xml", "nytimes", Tag.SCIENCE, new NytimesParser)
     scrapersMgrRef ! CreateScraperAgent("https://www.washingtontimes.com/rss/headlines/news/politics", "washingtontimes", Tag.POLITICS, new WashingtontimesParser)
     scrapersMgrRef ! CreateScraperAgent("https://www.washingtontimes.com/rss/headlines/culture/technology", "washingtontimes", Tag.TECHNOLOGY, new WashingtontimesParser)
+    scrapersMgrRef ! CreateScraperAgent("http://feeds.reuters.com/Reuters/PoliticsNews", "reuters", Tag.POLITICS, new ReutersParser)
+    scrapersMgrRef ! CreateScraperAgent("http://feeds.reuters.com/reuters/scienceNews", "reuters", Tag.SCIENCE, new ReutersParser)
+   scrapersMgrRef ! CreateScraperAgent("http://feeds.reuters.com/reuters/technologyNews", "reuters", Tag.TECHNOLOGY, new ReutersParser)
+   scrapersMgrRef ! CreateScraperAgent("https://www.theguardian.com/uk/technology/rss", "guardian", Tag.TECHNOLOGY, new GuardianParser)
+   scrapersMgrRef ! CreateScraperAgent("https://www.theguardian.com/world/rss", "guardian", Tag.POLITICS, new GuardianParser)
+
   }
 
 }
