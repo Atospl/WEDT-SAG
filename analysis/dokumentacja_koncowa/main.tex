@@ -35,10 +35,10 @@ Projekt łączony z przedmiotów \textit{Systemy Agentowe} oraz \textit{Wstęp d
 
 \subsection{Wykorzystane technologie}
 
-\par W celu realizacji systemu agentowego wykorzystano powszechnie stosowany framework Akka\cite{Akka}. Umożliwia on stworzenie funkcjonalnego systemu agentowego w dwóch językach - Scala oraz Java. Zespół podjął decyzję o implementacji w języku Scala.
+\par W celu realizacji systemu agentowego wykorzystano powszechnie stosowany framework Akka. Umożliwia on stworzenie funkcjonalnego systemu agentowego w dwóch językach - Scala oraz Java. Zespół podjął decyzję o implementacji w języku Scala.
 \par Warstwę bazodanową, w której przechowywane były informacje o pobranych ze stron informacyjnych artykułach, stanowiła baza danych Postgres.
-\par W celu stworzenia modułu odpowiedzialnego za wektoryzację oraz analizę podobieństwa artykułów wykorzystano język Python oraz biblioteki NLTK\cite{nltk} i GenSim\cite{gensim}.
-\par Ze względu na konieczność integracji modułu agentowego z modułem analitycznym, zdecydowano o integracji poprzez wykonywanie zapytań do serwera HTTP w którym osadzony był moduł analityczny. Serwer ten został wykonany z wykorzystaniem biblioteki flask\cite{flask}.
+\par W celu stworzenia modułu odpowiedzialnego za wektoryzację oraz analizę podobieństwa artykułów wykorzystano język Python oraz biblioteki NLTK i GenSim.
+\par Ze względu na konieczność integracji modułu agentowego z modułem analitycznym, zdecydowano o integracji poprzez wykonywanie zapytań do serwera HTTP w którym osadzony był moduł analityczny. Serwer ten został wykonany z wykorzystaniem biblioteki flask.
 
 \input{akka}
 
