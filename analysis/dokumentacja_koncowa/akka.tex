@@ -49,9 +49,9 @@ W stworzonym przez zespół systemie część agentów może działać w innych 
 
 \par W celu zrealizowania systemu agentowego zespół zdecydował się wykorzystać framework Akka. Decyzja ta podyktowana była chęcią wykorzystania popularnego w tym zakresie frameworku i stworzenia systemu wykorzystującego wszystkie zalety systemów agentowych - możliwość budowy relatywnie nieskomplikowanych w implementacji systemów, które jednocześnie będą wydajne, łatwo rozszerzalne i rozproszone.
 \par Nauka frameworka na podstawie istniejącej dokumentacji była czasochłonna. Dokumentacja zamieszczona na stronie Akki skupia się na zaprezentowaniu zalet korzystania z systemu aktorowego pomijając jednakże szczegóły implementacyjne - prezentuje jedynie dwa przykłady prostego systemu, opisując go w sposób dość rozwlekły.
-Bez wykorzystania źródeł zewnętrznych, w tym przykładowych systemów zaimplementowanych z wykorzystaniem tej biblioteki, niemożliwe byłoby na przykład zaimplementowanie systemu rozproszonego z wykorzystaniem biblioteki Akka Remote. 
+Bez wykorzystania źródeł zewnętrznych, w tym przykładowych systemów zaimplementowanych z wykorzystaniem tej biblioteki, niemożliwe byłoby na przykład zaimplementowanie systemu rozproszonego z wykorzystaniem biblioteki Akka Remote.
 \par Implementacja systemu agentowego ujawniła jednak wszystkie zalety frameworka Akka. Po zapoznaniu sie w dokładny sposób z dokumentacją była ona szybka i nie pociągnęła za sobą znaczących modyfikacji aż do końca projektu, co należy zawdzięczać również przemyślanej uprzednio strukturze systemu.
-\par Wielką zaletą frameworka okazała się łatwość rozbudowywania i rozpraszania aplikacji. Zmiana aplikacji z wersji lokalnej na rozproszoną wymagała niemal wyłącznie zmiany w plikach konfiguracyjnych oraz sposobie adresowania aktorów. 
+\par Wielką zaletą frameworka okazała się łatwość rozbudowywania i rozpraszania aplikacji. Zmiana aplikacji z wersji lokalnej na rozproszoną wymagała niemal wyłącznie zmiany w plikach konfiguracyjnych oraz sposobie adresowania aktorów.
 \par Również rozszerzenie zakresu analizowanych kanałów RSS okazało się być bezproblemowe. W początkowej wersji systemu analizowane były jedynie kanały RSS o różnej tematyce pochodzące z serwisów informacyjnych BBC oraz CNN. W celu powiększenia zbioru testowego do rozsądnej liczby artykułów, zostały zaimplementowane również parsery takich mediów jak:
 \begin{itemize}
 	\item Reuters
@@ -64,3 +64,23 @@ Umożliwiło to zwiększenie bazy danych artykułów ze 137 pozycji do niemal 50
 \par Istnieją jednakże również negatywne strony takiej decyzji. Systemy agentowe nie należą do najpopularniejszych, co sprawia, że wsparcie społeczności dla frameworka Akka czasami okazywało się niewystarczające. Zespół napotkał duże problemy przechodząc od wersji lokalnej projektu do wersji rozproszonej ze względu na niejednoznaczne komunikaty o błędach. Zostały one jednak szybko pokonane i trudności takie nie przeważają zalet wykorzystania zarówno architektury agentowej, jak i konkretnego frameworka w postaci Akki.
 
 \subsection{Schemat pobierania wiadomości}
+
+Agenty odpowiedzialne za pobieranie oraz parsowanie artykułów, uruchamiane są
+regularnie. Po przeparsowaniu każdego artykułu, najważniejsze informacje o nim:
+
+\begin{itemize}
+\item adres strony z której został pobrany,
+\item strona z której został pobrany,
+\item text artykułu,
+\item data publikacji,
+\item tagi,
+\item oraz wektor zwrócony przez moduł NLP,
+\end{itemize}
+są zapisywane w bazie danych \ref{fig:db}.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[height=0.3\textheight, width=0.3\textwidth]{./pict/db.png}
+\caption{Schemat bazy danych}
+\label{fig:db}
+\end{figure}
