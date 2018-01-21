@@ -163,9 +163,9 @@ Utworzono 3 grupy artykułów identycznych, każdy po 10 artykułów.
 
 Artykułów o zbliżonej tematyce również powstały 3 grupy, również po 10 artykułów.
 \begin{itemize}
-\item Putin,
-\item Chelsea,
-\item meltdown
+\item wiadomości dotyczące Władimira Putina,
+\item klub piłkarski Chelsea,
+\item podatność Meltdown w procesorach Intel
 \end{itemize}
 
 \subsection{Miary oceny}
@@ -190,12 +190,14 @@ Badaniu podlegał zbiór par artykułów i podobieństwa pomiędzy nimi. Zbiór 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=1.0\textwidth]{./pict/roc_identical.png}
+\includegraphics[width=0.8\textwidth]{./pict/roc_identical.png}
 \caption{Krzywa ROC uzyskana na zbiorze rzeczywistym, AUC = 0.85}
 \label{fig:rocidentical}
 \end{figure}
 
-Uzyskana krzywa ROC świadczy o tym, iż na rzeczywistym zbiorze artykułów algorytm bardzo dobrze radzi sobie z wskazywaniem artykułów o identycznej tematyce. Spośród 56 par artykułów podobnych, zaledwie 4 pary uzyskały stopień podobieństwa niższy niż średni stopień podobieństwa pomiędzy wszystkimi artykułami (0.3). Wszystkie pozostałe artykuły uzyskały znacząco wyższy stopień podobieństwa, co umożliwia dokonanie poprawnej klasyfikacji na podstawie progowania. 
+Uzyskana krzywa ROC świadczy o tym, iż na rzeczywistym zbiorze artykułów algorytm bardzo dobrze radzi sobie z wskazywaniem artykułów o identycznej tematyce. Spośród 56 par artykułów podobnych, zaledwie 4 pary uzyskały stopień podobieństwa niższy niż średni stopień podobieństwa pomiędzy wszystkimi artykułami (0.3). Wszystkie pozostałe artykuły uzyskały znacząco wyższy stopień podobieństwa, co umożliwia dokonanie poprawnej klasyfikacji na podstawie progowania.
+
+
 
 \subsubsection*{Artykuły źle klasyfikowane}
 
@@ -218,3 +220,56 @@ US military to maintain open-ended presence in Syria, Tillerson says
 \end{enumerate}
 
 Analiza przypadków słabo sklasyfikowanych ujawniła ułomności uzyskanego zbioru, potwierdzając w gruncie rzeczy zdolności algorytmu do rozpoznawania artykułów podobnych.
+
+\subsubsection*{Wyniki różnych modeli}
+\label{sec:wyniki}
+
+Jako podstawowy model, użyty został model trenowany na korpusie
+Reutersa, i dla niego przeprowadzone zostały wszystkie powyższe
+obliczenia. W wyniku pracy systemu udało się zgromadzić zbiór ok. 400
+artykułów, który użyty został w celu uzyskania modelu o wyższej
+dokładności. Eksperymenty te zostały opisane poniżej.
+
+
+Wyniki modeli opisanych w sekcji \ref{ssec:modele} na sztucznym zbiorze
+testowym, dla artykułów podobnych i zbliżonych:
+
+\begin{center}
+\begin{tabular}{r|c|c}
+model & AUC -- podobny & AUC -- zbliżony\\
+\hline
+reuters & 0.9750 & 0.7047\\
+reuters+rzeczywisty & 0.9893 & 0.8552\\
+rzeczywisty & 1.0000 & 0.9000\\
+\end{tabular}
+\end{center}
+
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=0.8\textwidth]{./pict/reuters_z.png}
+\caption{Krzywa ROC uzyskana na zbiorze testowym wiadomości zbliżonych  dla modelu trenowanego na korpusie Reuters, AUC = 0.7047}
+\label{fig:rocidentical}
+\end{figure}
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=0.8\textwidth]{./pict/dataset_z.png}
+\caption{Krzywa ROC uzyskana na zbiorze testowym wiadomości zbliżonych dla modelu trenowanego na zbiorze rzeczywistym, AUC = 0.9000}
+\label{fig:rocidentical}
+\end{figure}
+
+Z powyższych wyników można wysnuć dwa wnioski:
+
+Po pierwsze, korpus wiadomości Reutersa jest zbyt różny od
+rzeczywistego, aby jego użycie w treningu zwiększało wyniki
+modelu. Zastąpienie go korpusem zbudowanym z wiadomości uzyskanych w
+trakcie pracy systemu zwiększyło dokładność
+klasyfikacji. Prawdopodobnie wynika to z różnicy w strukturze
+wiadomości obu korpusów: korpus Reutersa zawiera, oprócz zwykłych
+artykułów znaczną liczbę krótkich depeszy prasowych.
+
+Po drugie, wiadomości dotyczące jednego konkretnego wydarzenia
+(podobne) klasyfikowane są przez system dużo lepiej niż wiadomości
+zbliżone (dotyczące różnych wydarzeń o podobnej tematyce). Jest to
+oczekiwany wynik, świadczący o prawidłowym działaniu systemu.

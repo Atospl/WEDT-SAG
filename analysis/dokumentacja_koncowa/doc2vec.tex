@@ -1,5 +1,91 @@
 \section{Przetwarzanie języka naturalnego}
 %%%% OPIS NARZĘDZI - plusy i minusy
-\subsection{Algorytm Doc2Vec}
+
+Do określania podobieństwa artykułów użyta została technika
+doc2vec. Przy jej użyciu możliwe jest wygenerowanie dla każdego z
+artykułów wektora liczb rzeczywistych, osadzającego cały dokument w
+przestrzeni wektorowej. Wektory dokumentów podobnych do siebie powinny
+leżeć w tej przestrzeni blisko siebie.
+
+
+\subsection{Doc2Vec}
+
+Nazwa doc2vec\cite{doc2vec} (lub paragraph2vec) jest wspólną nazwą używaną do
+określenia dwóch różnych algorytmów:
+
+\begin{itemize}
+\item Distributed memory model
+\item Distributed bag of words
+\end{itemize}
+
+Algorytmy te umożliwiają wyznaczenie wektorowej reprezentacji dokumentu za pomocą \textit{uczenia bez nadzoru.} Dzięki temu możliwe jest wytrenowanie modelu doc2vec, służącego do wyznaczania wektorów dla jeszcze nie widzianych artykułów na nieoznaczonym korpusie.
+
+Doc2vec jest rozszerzeniem techniki word2vec służącej do wyznaczania
+wektorowych reprezentacji pojedynczych słów na podstawie kontekstu w
+jakim występują w korpusie źródłowym. Tak więc do jego zastosowania
+potrzebne są reprezentacje słów (przygotowane wcześniej lub wyznaczone
+podczas treningu modelu doc2vec). Oczywistym ograniczeniem algorytmu
+jest to, że lista słów rozpoznawanych przez model ograniczona jest do
+słów występujących w korpusie treningowym. Tak więc korpus treningowy
+powinien być jak najbardziej zbliżony do rzeczywistych artykułów.
+
+\subsubsection{Podobieństwo wektorów}
+
+Podobieństwo wektorów wyznaczonych przez model doc2vec określane jest
+przez wyznaczenie iloczynu skalarnego ich wersorów:
+
+\begin{equation}
+  S(\mathbf{u},\mathbf{v}) = \frac{\mathbf{u}}{||\mathbf{u}||} \cdot \frac{\mathbf{v}}{||\mathbf{v}||}
+\end{equation}
+
+\subsubsection{Modele}
+\label{ssec:modele}
+
+Do klasyfikacji artykułów zostały użyte trzy różne modele, trenowane
+na dwóch różnych korpusach:
+
+\begin{itemize}
+\item Routers -- zbiór artykułów Reutersa, dostępny w bibliotece
+  NLTK. W skład korpusu, oprócz artykułów wchodzą również krótkie
+  depesze, składające się głównie ze skrótów nazw spółek i kwot
+  transakcji przez nie zawieranych,
+\item Rzeczywisty -- zbiór ok. 400 artykułów uzyskanych przez system w
+  trakcie jego działania.
+\end{itemize}
+
+Wytrenowane i ocenione zostały trzy modele, ich wyniki znajdują się w sekcji \ref{sec:wyniki}:
+
+\begin{itemize}
+\item reuters -- model trenowany na korpusie Reuters,
+\item reuters+rzeczywisty -- model trenowany na obu korpusach,
+\item rzeczywisty -- model trenowany na korpusie rzeczywistych wiadomości.
+\end{itemize}
+
+\paragraph{Preprocessing}
+
+Przed treningiem korpusy poddane zostały preprocessingowi: usunięte i
+zastąpione spacją zostały wszystkie symbole nie będące literami lub
+cyframi.
+
 
 \subsection{GenSim}
+
+Do wytrenowania modeli doc2vec użyty został framework Gensim i klasa
+\texttt{Doc2Vec} z modułu \texttt{gensim.models.doc2vec}. Umożliwia
+ona trenowanie modeli doc2vec, jak również wyznaczanie wektorów dla
+niewidzianych wcześniej dokumentów.
+
+Pewnym utrudnieniem w jej użyciu była bardzo ogólnikowa dokumentacja,
+jak również brak niektórych oczywistych funkcji, np. policzenie
+podobieństwa wektorów przy użyciu dostępnej w bibliotece metody
+\texttt{infer\_vector} możliwe jest tylko dla wektorów reprezentujących
+dokumenty ze zbioru treningowego. Tak więc ta funkcjonalność musiała
+zostać zaimplementowana ręcznie.
+
+Oprócz braku dokumentacji, wynikającego z trwającego jeszcze rozwoju
+frameworku, Gensim nie sprawił większych kłopotów. Zarówno prędkość
+treningu, jak i wyznaczania reprezentacji wektorowych jest
+wystarczająca dla potrzeb projektu. Niestety, funkcje dostępne w
+klasie \texttt{Doc2vec} nie są przystosowane do działania na GPU,
+którego użycie znacząco przyspiesza trening sieci neuronowych.
+
