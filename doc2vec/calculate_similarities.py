@@ -6,7 +6,7 @@ import sys
 from utils import Article, vector_similarity
 from gensim.models.doc2vec import Doc2Vec
 
-INPUT_DELIMITER = '\\'
+INPUT_DELIMITER = '\t'
 OUTPUT_DELIMITER = '\t'
 
 parser = argparse.ArgumentParser()

@@ -1,3 +1,4 @@
+import sys
 import pandas as pd
 import numpy as np
 from sklearn.metrics import auc, roc_curve
@@ -7,9 +8,12 @@ import matplotlib.pyplot as plt
 def extract_tag_from_similarities(data, similarities, tag):
     """Extracts values from similarities where both articles are from
         the same tag"""
+
     tag_subset = data[data.tags == tag]
+
     sim_subset = similarities[similarities.x1.isin(tag_subset.id) & 
                               similarities.x2.isin(tag_subset.id)]
+
     return sim_subset
 
 
@@ -68,6 +72,6 @@ def create_roc(data, similarities, tag):
 
 
 if __name__ == "__main__":
-    data = pd.read_csv("dataset.csv", sep='\\')
-    similarities = pd.read_csv("similarities.csv", sep="\t")
-    create_roc(data, similarities, "Politics")
+    data = pd.read_csv(sys.argv[1], sep='\t')
+    similarities = pd.read_csv(sys.argv[2], sep="\\")
+    create_roc(data, similarities, sys.argv[3])

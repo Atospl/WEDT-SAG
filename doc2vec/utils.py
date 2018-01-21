@@ -23,6 +23,16 @@ def get_tagged_documents_reuters(corpus_type):
         docs.append(TaggedDocument(words=words, tags=[corpus_file]))
     return docs
 
+def get_tagged_documents_csv(filename, separator='\t'):
+    docs = []
+
+    with open(filename, 'r') as csv_file:
+        for line in csv_file:
+            tag, text = line.strip().split(separator)
+            words = preprocess(text).split(" ")
+            docs.append(TaggedDocument(words=words, tags=[tag]))
+
+    return docs
 
 def print_tagged_document(doc):
     tags_str = reduce(lambda x, y: x + " " + str(y), doc.tags, "")
