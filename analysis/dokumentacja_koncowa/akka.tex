@@ -1,8 +1,26 @@
 \section{System agentowy}
 %%%% OPIS NARZĘDZI - plusy i minusy
+Na rys. \ref{fig:actor} został umieszczony schemat stworzonej przez zespół architektury systemu agentowego.
+\begin{figure}[!htb]
+\centering
 \includegraphics[width=1.0\textwidth]{./pict/actors.png}
+\caption{Schemat wdrożonego systemu zgodnie z architekturą Akka}
+\label{fig:actor}
+\end{figure}
 
+\par Przy czym strzałki pogrubione oznaczają podległość agentów (aktorzy przy końcu strzałki są ''dziećmi'' aktorów z początku strzałki), natomiast dodatkowe strzałki przerywane oznaczają kierunek wysyłania wiadomości do agentów.
+
+\par Poszczególni agenci w systemie różnią się między sobą zadaniami:
+\begin{itemize}
+	\item \texttt{DBAgent} - pełni zadania agenta mającego bezpośredni dostęp do bazy danych, w której składowane są artykuły. 
+\end{itemize}
+
+\par System ten został wykorzystany z użyciem popularnego dla takich celów frameworku Akka oraz języka Scala.
+
+W stworzonym przez zespół systemie część agentów może działać w innych węzłach niż pozostałe. Dzięki wykorzystaniu biblioteki \texttt{Akka Remoting}, zespół przetestował umieszczenie osobno agenta ScrapersManager oraz wszystkich agentów typu ScraperAgent.
 
 \subsection{Język Scala}
 
 \subsection{Framework Akka}
+
+\subsection{Schemat pobierania wiadomości}
